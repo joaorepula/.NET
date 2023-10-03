@@ -73,8 +73,24 @@ public class UsuarioController : ControllerBase
 
     }
 
+    [HttpPost]
+    [Route("cadastrar")]
+    public IActionResult Cadastrar([FromBody] Usuario usuario)
+    {
+        try
+        {
+            _ctx.Add(usuario);
+            _ctx.SaveChanges();
+            
+            return Created("", usuario);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 
-    
+
 
 }
 

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20231003010449_CreateDataBase")]
+    [Migration("20231003011641_CreateDataBase")]
     partial class CreateDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,7 +66,7 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.Livro", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LivroId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -82,14 +82,14 @@ namespace API.Migrations
                     b.Property<int>("TotalPaginas")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("LivroId");
 
                     b.ToTable("Livros");
                 });
 
             modelBuilder.Entity("API.Models.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UsuarioId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -111,7 +111,7 @@ namespace API.Migrations
                     b.Property<string>("Telefone")
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("UsuarioId");
 
                     b.ToTable("Usuarios");
                 });

@@ -3,7 +3,7 @@
 public class Livro
 {
 
-        public int Id { get; set; } // Id do livro (pode ser gerado automaticamente pelo banco de dados)
+        public int LivroId { get; set; } // Id do livro (pode ser gerado automaticamente pelo banco de dados)
         public string? Autor { get; set; } // Autor do livro
         public int TotalPaginas { get; set; } // Número total de páginas do livro
         public string? Titulo  { get; set; } // Título do livro

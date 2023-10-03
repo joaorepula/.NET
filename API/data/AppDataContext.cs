@@ -10,5 +10,11 @@ public class AppDataContext : DbContext
 
     }
 
-    public DbSet<Produto> Produtos { get; set; }
+    public DbSet<Livro> Livros { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Emprestimo> Emprestimos { get; set; }
+    public DbSet<Biblioteca> Bibliotecas { get; set; }
+
+
+
 }

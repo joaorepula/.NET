@@ -7,7 +7,6 @@ namespace API.Models
         public int Id { get; set; } // Id do usuário (pode ser gerado automaticamente pelo banco de dados)
         public string? Nome { get; set; } // Nome do usuário
         public string? CPF { get; set; } // CPF do usuário
-        public string? Token { get; set; } // Token (se necessário)
         public string? Endereco { get; set; } // Endereço do usuário
         public string? Senha { get; set; } // Senha do usuário (certifique-se de criptografá-la adequadamente)
         public string? Telefone { get; set; } // Número de telefone do usuário

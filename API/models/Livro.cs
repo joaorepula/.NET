@@ -8,4 +8,7 @@ public class Livro
         public int TotalPaginas { get; set; } // Número total de páginas do livro
         public string? Titulo  { get; set; } // Título do livro
         public string? Descricao { get; set; } // Descrição do livro
+
+        public int Estoque { get; set; } // Descrição do livro
+
 }

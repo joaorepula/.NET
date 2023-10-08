@@ -32,23 +32,6 @@ namespace API.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Emprestimos",
-                columns: table => new
-                {
-                    EmprestimoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    LivroId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    DataEmprestimo = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DataFinal = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Emprestimos", x => x.EmprestimoId);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Livros",
                 columns: table => new
                 {
@@ -60,7 +43,8 @@ namespace API.Migrations
                     Titulo = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Descricao = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Estoque = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,6 +75,45 @@ namespace API.Migrations
                     table.PrimaryKey("PK_Usuarios", x => x.UsuarioId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Emprestimo",
+                columns: table => new
+                {
+                    EmprestimoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    LivroId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    DataEmprestimo = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataFinal = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Emprestimo", x => x.EmprestimoId);
+                    table.ForeignKey(
+                        name: "FK_Emprestimo_Livros_LivroId",
+                        column: x => x.LivroId,
+                        principalTable: "Livros",
+                        principalColumn: "LivroId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Emprestimo_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "UsuarioId",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Emprestimo_LivroId",
+                table: "Emprestimo",
+                column: "LivroId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Emprestimo_UsuarioId",
+                table: "Emprestimo",
+                column: "UsuarioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -99,7 +122,7 @@ namespace API.Migrations
                 name: "Bibliotecas");
 
             migrationBuilder.DropTable(
-                name: "Emprestimos");
+                name: "Emprestimo");
 
             migrationBuilder.DropTable(
                 name: "Livros");

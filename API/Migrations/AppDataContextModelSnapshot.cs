@@ -34,12 +34,16 @@ namespace API.Migrations
                     b.Property<int>("LivroId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("EmprestimoId");
 
-                    b.ToTable("Emprestimos");
+                    b.HasIndex("LivroId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Emprestimo");
                 });
 
             modelBuilder.Entity("API.Models.Biblioteca", b =>
@@ -73,6 +77,9 @@ namespace API.Migrations
 
                     b.Property<string>("Descricao")
                         .HasColumnType("longtext");
+
+                    b.Property<int>("Estoque")
+                        .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .HasColumnType("longtext");
@@ -112,6 +119,25 @@ namespace API.Migrations
                     b.HasKey("UsuarioId");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("API.Emprestimo", b =>
+                {
+                    b.HasOne("API.Models.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+
+                    b.Navigation("Usuario");
                 });
 #pragma warning restore 612, 618
         }

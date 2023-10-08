@@ -68,6 +68,34 @@ namespace API
             }
         }
 
+        [HttpPut]
+        [Route("atualizar/{id}")]
+        public IActionResult Atualizar(int id, [FromBody] Livro livroAtualizado)
+        {
+            try
+            {
+                Livro livroExistente = _ctx.Livros.Find(id) ?? throw new InvalidOperationException($"Livro com id {id} não encontrado");
+
+                if (livroExistente != null)
+                {
+                    livroExistente.Autor = livroAtualizado.Autor;
+                    livroExistente.TotalPaginas = livroAtualizado.TotalPaginas;
+                    livroExistente.Titulo = livroAtualizado.Titulo;
+                    livroExistente.Descricao = livroAtualizado.Descricao;
+
+                    _ctx.SaveChanges();
+                    
+                    return Ok(livroExistente);
+                }
+
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
         [HttpDelete]
         [Route("deletar/{id}")]
         public IActionResult Deletar(int id)

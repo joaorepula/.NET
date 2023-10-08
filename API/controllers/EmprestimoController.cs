@@ -73,8 +73,17 @@ namespace API
                     _ctx.SaveChanges();
 
                     Usuario usuario = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == emprestimo.UsuarioId);
+                        
+
                     if (usuario != null && usuario.Ativo == 1)
                     {
+                        usuario.Nome = usuario.Nome;
+                        usuario.Endereco = usuario.Endereco;
+                        usuario.Telefone = usuario.Telefone;
+                        usuario.Ativo = 0;
+
+                        _ctx.SaveChanges();
+
                         emprestimo.DataEmprestimo = DateTime.Now;
                         emprestimo.DataFinal = DateTime.Now.AddDays(7);
 
@@ -82,8 +91,10 @@ namespace API
                         _ctx.SaveChanges();
 
                         return Created("", emprestimo);
-                    }else {
-                        return BadRequest("Usuário se encontra bloqueado!.");
+                    }
+                    else
+                    {
+                        return BadRequest("Usuário se encontra com emprestimo ativo!.");
                     }
                 }
                 return BadRequest("Livro não encontrado ou sem estoque disponível.");
@@ -94,28 +105,37 @@ namespace API
             }
         }
 
-
-        [HttpPut]
-        [Route("atualizar/{id}")]
-        public IActionResult Atualizar(int id, [FromBody] Livro livroAtualizado)
+        [HttpPost]
+        [Route("devolucao")]
+        public IActionResult Devolucao([FromBody] Emprestimo emprestimo)
         {
             try
             {
-                Livro livroExistente = _ctx.Livros.Find(id) ?? throw new InvalidOperationException($"Livro com id {id} não encontrado");
+                Livro livroEncontrado = _ctx.Livros.FirstOrDefault(x => x.LivroId == emprestimo.LivroId);
 
-                if (livroExistente != null)
+                if (livroEncontrado != null && livroEncontrado.Estoque > 0)
                 {
-                    livroExistente.Autor = livroAtualizado.Autor;
-                    livroExistente.TotalPaginas = livroAtualizado.TotalPaginas;
-                    livroExistente.Titulo = livroAtualizado.Titulo;
-                    livroExistente.Descricao = livroAtualizado.Descricao;
+                    int estoque = livroEncontrado.Estoque + 1;
+
+                    livroEncontrado.Autor = livroEncontrado.Autor;
+                    livroEncontrado.TotalPaginas = livroEncontrado.TotalPaginas;
+                    livroEncontrado.Titulo = livroEncontrado.Titulo;
+                    livroEncontrado.Descricao = livroEncontrado.Descricao;
+                    livroEncontrado.Estoque = estoque;
 
                     _ctx.SaveChanges();
 
-                    return Ok(livroExistente);
-                }
+                    Usuario usuario = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == emprestimo.UsuarioId);
+                  
+                        usuario.Nome = usuario.Nome;
+                        usuario.Endereco = usuario.Endereco;
+                        usuario.Telefone = usuario.Telefone;
+                        usuario.Ativo = 1;
 
-                return NotFound();
+                        _ctx.SaveChanges();
+                    
+                }
+                return BadRequest("Livro não encontrado ou sem estoque disponível.");
             }
             catch (Exception e)
             {

@@ -90,6 +90,34 @@ public class UsuarioController : ControllerBase
         }
     }
 
+[HttpPut]
+        [Route("atualizar/{id}")]
+        public IActionResult Atualizar(int id, [FromBody] Usuario usuarioAtualizado)
+        {
+            try
+            {
+                Usuario usuarioExistente = _ctx.Usuarios.Find(id) ?? throw new InvalidOperationException($"Usuario com id {id} não encontrado");
+
+                if (usuarioExistente != null)
+                {
+                    usuarioExistente.Nome = usuarioAtualizado.Nome;
+                    usuarioExistente.Endereco = usuarioAtualizado.Endereco;
+                    usuarioExistente.Telefone = usuarioExistente.Telefone;
+                    usuarioExistente.Ativo = usuarioAtualizado.Ativo;
+
+                    _ctx.SaveChanges();
+                    
+                    return Ok(usuarioExistente);
+                }
+
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
 
 
 }

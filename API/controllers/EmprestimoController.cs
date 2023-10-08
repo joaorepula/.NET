@@ -23,8 +23,8 @@ namespace API
         {
             try
             {
-                List<Livro> livros = _ctx.Livros.ToList();
-                return livros.Count == 0 ? NotFound() : Ok(livros);
+                List<Emprestimo> emprestimos = _ctx.Emprestimos.ToList();
+                return emprestimos.Count == 0 ? NotFound() : Ok(emprestimos);
             }
             catch (Exception e)
             {
@@ -73,7 +73,7 @@ namespace API
                     _ctx.SaveChanges();
 
                     Usuario usuario = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == emprestimo.UsuarioId);
-                        
+
 
                     if (usuario != null && usuario.Ativo == 1)
                     {
@@ -87,7 +87,7 @@ namespace API
                         emprestimo.DataEmprestimo = DateTime.Now;
                         emprestimo.DataFinal = DateTime.Now.AddDays(7);
 
-                        _ctx.Emprestimo.Add(emprestimo);
+                        _ctx.Emprestimos.Add(emprestimo);
                         _ctx.SaveChanges();
 
                         return Created("", emprestimo);
@@ -126,14 +126,14 @@ namespace API
                     _ctx.SaveChanges();
 
                     Usuario usuario = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == emprestimo.UsuarioId);
-                  
-                        usuario.Nome = usuario.Nome;
-                        usuario.Endereco = usuario.Endereco;
-                        usuario.Telefone = usuario.Telefone;
-                        usuario.Ativo = 1;
 
-                        _ctx.SaveChanges();
-                    
+                    usuario.Nome = usuario.Nome;
+                    usuario.Endereco = usuario.Endereco;
+                    usuario.Telefone = usuario.Telefone;
+                    usuario.Ativo = 1;
+
+                    _ctx.SaveChanges();
+
                 }
                 return BadRequest("Livro não encontrado ou sem estoque disponível.");
             }
@@ -142,26 +142,26 @@ namespace API
                 return BadRequest(e.Message);
             }
         }
-
         [HttpDelete]
         [Route("deletar/{id}")]
         public IActionResult Deletar(int id)
         {
             try
             {
-                Livro? livroEncontrado = _ctx.Livros.Find(id);
-                if (livroEncontrado != null)
+                Emprestimo? emprestimoEncontrado = _ctx.Emprestimos.Find(id);
+                if (emprestimoEncontrado != null)
                 {
-                    _ctx.Livros.Remove(livroEncontrado);
+                    _ctx.Emprestimos.Remove(emprestimoEncontrado);
                     _ctx.SaveChanges();
-                    return Ok();
+                    return Ok("Livro removido com sucesso!");
                 }
-                return NotFound();
+                return NotFound("Não encontrado");
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+
     }
 }

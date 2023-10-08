@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class CreateDataBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,7 +68,7 @@ namespace API.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Telefone = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Ativo = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,7 +77,7 @@ namespace API.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Emprestimo",
+                name: "Emprestimos",
                 columns: table => new
                 {
                     EmprestimoId = table.Column<int>(type: "int", nullable: false)
@@ -89,15 +89,15 @@ namespace API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Emprestimo", x => x.EmprestimoId);
+                    table.PrimaryKey("PK_Emprestimos", x => x.EmprestimoId);
                     table.ForeignKey(
-                        name: "FK_Emprestimo_Livros_LivroId",
+                        name: "FK_Emprestimos_Livros_LivroId",
                         column: x => x.LivroId,
                         principalTable: "Livros",
                         principalColumn: "LivroId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Emprestimo_Usuarios_UsuarioId",
+                        name: "FK_Emprestimos_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuarios",
                         principalColumn: "UsuarioId",
@@ -106,13 +106,13 @@ namespace API.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Emprestimo_LivroId",
-                table: "Emprestimo",
+                name: "IX_Emprestimos_LivroId",
+                table: "Emprestimos",
                 column: "LivroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Emprestimo_UsuarioId",
-                table: "Emprestimo",
+                name: "IX_Emprestimos_UsuarioId",
+                table: "Emprestimos",
                 column: "UsuarioId");
         }
 
@@ -122,7 +122,7 @@ namespace API.Migrations
                 name: "Bibliotecas");
 
             migrationBuilder.DropTable(
-                name: "Emprestimo");
+                name: "Emprestimos");
 
             migrationBuilder.DropTable(
                 name: "Livros");

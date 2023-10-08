@@ -107,7 +107,7 @@ namespace API
                 {
                     _ctx.Livros.Remove(livroEncontrado);
                     _ctx.SaveChanges();
-                    return Ok();
+                    return Ok("Livro removido do sistema!");
                 }
                 return NotFound();
             }

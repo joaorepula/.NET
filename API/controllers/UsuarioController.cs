@@ -31,14 +31,13 @@ public class UsuarioController : ControllerBase
         }
     }
     [HttpGet]
-    [Route("buscar/{nome}/{cpf}")]
+    [Route("buscar/{nome}")]
 
-
-    public IActionResult Buscar([FromRoute] string nome, [FromRoute] string cpf)
+    public IActionResult Buscar([FromRoute] int id)
     {
         try
         {
-            Usuario? usuarioCadastrado = _ctx.Usuarios.FirstOrDefault(x => x.Nome == nome);
+            Usuario? usuarioCadastrado = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == id);
             if (usuarioCadastrado != null)
             {
                 return Ok(usuarioCadastrado);
@@ -90,7 +89,7 @@ public class UsuarioController : ControllerBase
         }
     }
 
-[HttpPut]
+        [HttpPut]
         [Route("atualizar/{id}")]
         public IActionResult Atualizar(int id, [FromBody] Usuario usuarioAtualizado)
         {

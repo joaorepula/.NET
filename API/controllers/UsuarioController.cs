@@ -31,7 +31,7 @@ public class UsuarioController : ControllerBase
         }
     }
     [HttpGet]
-    [Route("buscar/{nome}")]
+    [Route("buscar/{id}")]
 
     public IActionResult Buscar([FromRoute] int id)
     {

@@ -58,7 +58,7 @@ namespace API
         {
             try
             {
-                Livro livroEncontrado = _ctx.Livros.FirstOrDefault(x => x.LivroId == emprestimo.LivroId);
+                Livro? livroEncontrado = _ctx.Livros.FirstOrDefault(x => x.LivroId == emprestimo.LivroId);
 
                 if (livroEncontrado != null && livroEncontrado.Estoque > 0)
                 {
@@ -72,7 +72,7 @@ namespace API
 
                     _ctx.SaveChanges();
 
-                    Usuario usuario = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == emprestimo.UsuarioId);
+                    Usuario? usuario = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == emprestimo.UsuarioId);
 
 
                     if (usuario != null && usuario.Ativo == 1)
@@ -111,7 +111,7 @@ namespace API
         {
             try
             {
-                Livro livroEncontrado = _ctx.Livros.FirstOrDefault(x => x.LivroId == emprestimo.LivroId);
+                Livro? livroEncontrado = _ctx.Livros.FirstOrDefault(x => x.LivroId == emprestimo.LivroId);
 
                 if (livroEncontrado != null && livroEncontrado.Estoque > 0)
                 {
@@ -125,7 +125,7 @@ namespace API
 
                     _ctx.SaveChanges();
 
-                    Usuario usuario = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == emprestimo.UsuarioId);
+                    Usuario? usuario = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == emprestimo.UsuarioId);
 
                     usuario.Nome = usuario.Nome;
                     usuario.Endereco = usuario.Endereco;

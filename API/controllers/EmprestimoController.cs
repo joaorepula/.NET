@@ -18,12 +18,12 @@ namespace API
 
 
         [HttpGet]
-        [Route("listar")]
-        public IActionResult Listar()
+        [Route("listar-emprestimo/{id}")]
+        public IActionResult ListarPorId(int id)
         {
             try
             {
-                List<Emprestimo> emprestimos = _ctx.Emprestimos.ToList();
+                List<Emprestimo> emprestimos = _ctx.Emprestimos.Where(x => x.UsuarioId == id).ToList();
                 return emprestimos.Count == 0 ? NotFound() : Ok(emprestimos);
             }
             catch (Exception e)

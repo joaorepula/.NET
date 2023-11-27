@@ -18,20 +18,6 @@ namespace API
 
 
         [HttpGet]
-        [Route("listar")]
-        public IActionResult Listar()
-        {
-            try
-            {
-                List<Emprestimo> emprestimos = _ctx.Emprestimos.ToList();
-                return emprestimos.Count == 0 ? NotFound() : Ok(emprestimos);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpGet]
         [Route("listar-emprestimo/{id}")]
         public IActionResult ListarPorId(int id)
         {
@@ -45,7 +31,6 @@ namespace API
                 return BadRequest(e.Message);
             }
         }
-
         [HttpGet]
         [Route("buscar/{id}")]
         public IActionResult Buscar(int id)
